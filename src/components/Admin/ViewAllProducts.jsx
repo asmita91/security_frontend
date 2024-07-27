@@ -145,17 +145,11 @@
 //   );
 // };
 
+import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
-import { IconButton, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import sound from "../../assets/sound.wav";
-import productServices from "../../services/productService";
-import { usePurchase } from "../../utils/purchaseContext";
-import { ResponsiveAppBarHomepage } from "../AppBar/ResponsiveAppBarHomepage";
-import { MySnackbar } from "../MySnackbar";
+import { Button, IconButton } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -163,8 +157,13 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import sound from "../../assets/sound.wav";
+import productServices from "../../services/productService";
+import { usePurchase } from "../../utils/purchaseContext";
 import { AdminAppBar } from "../AppBar/AdminAppBar";
+import { MySnackbar } from "../reusbles/snackbar";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

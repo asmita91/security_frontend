@@ -644,14 +644,14 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Button from "@mui/material/Button";
+import DOMPurify from "dompurify";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import DOMPurify from "dompurify";
 import sound from "../../assets/sound.wav";
 import productServices from "../../services/productService";
 import userServices from "../../services/userService";
 import { AdminAppBar } from "../AppBar/AdminAppBar";
-import { MySnackbar } from "../MySnackbar";
+import { MySnackbar } from "../reusbles/snackbar";
 
 export const EditProduct = () => {
   const { productId } = useParams();

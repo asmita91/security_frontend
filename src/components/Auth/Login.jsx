@@ -1,23 +1,16 @@
-
-
-import React, { useState } from "react";
 import MailLockIcon from "@mui/icons-material/MailLock";
 import PasswordIcon from "@mui/icons-material/Password";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import {
-  Grid,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-} from "@mui/material";
+import { Grid, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
-import { isEmail } from "../../lib/input-validation";
 import recaptchKeys from "../../services/recaptcha";
 import userServices from "../../services/userService";
 import { useAuth } from "../../utils/authContext";
 import { useUser } from "../../utils/userContext";
+import { isEmail } from "../../validations/input-validation";
 import { ResponsiveAppBarLandingPage } from "../AppBar/ResponsiveAppBarLandingPage";
 
 function Login() {
@@ -231,7 +224,10 @@ function Login() {
                   )}
 
                   {formWarning !== "" && (
-                    <div className="alert alert-warning mt-1" style={{ color: "red" }}>
+                    <div
+                      className="alert alert-warning mt-1"
+                      style={{ color: "red" }}
+                    >
                       <svg
                         xmlns="https://www.w3.org/2000/svg"
                         className="stroke-current shrink-0 h-6 w-6"
@@ -258,11 +254,11 @@ function Login() {
                     <button
                       onClick={handleLogin}
                       style={{
-                        backgroundColor: '#000000',
-                        color: 'white',
-                        border: 'none', // Remove the default border
-                        marginLeft: '3rem',
-                        marginRight: '3rem',
+                        backgroundColor: "#000000",
+                        color: "white",
+                        border: "none", // Remove the default border
+                        marginLeft: "3rem",
+                        marginRight: "3rem",
                       }}
                       className="btn font-bold"
                       disabled={!userVerified}
