@@ -24,6 +24,7 @@ import { ViewAllProducts } from './components/Admin/ViewAllProducts';
 import { EditProduct } from './components/Admin/EditProduct';
 import PasswordResetRequest from './components/User/Forgotpassword';
 import { ToastContainer } from 'react-toastify';
+import AdminLogs from './components/Admin/AdminLogs';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
               <Route path='/purchaseHistory' element={<RequireAuth> <PurchaseHistory /> </RequireAuth>}></Route>
               <Route path='/changePassword' element={<RequireAuth> <ChangePassword /> </RequireAuth>}></Route>
               <Route path='/forgotPassword' element={ <PasswordResetRequest /> }></Route>
+              <Route path="/logs" element={<AdminLogs/>} />
               <Route path='*' element={<ErrorPage />}></Route>
             </Routes>
           </PurchaseProvider>

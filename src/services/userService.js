@@ -108,7 +108,19 @@ const unlockAccount = (userId) => {
     return axios.post(`https://localhost:3005/admin/unlockAccount/${userId}`, {});
 }
 
-
+const getLogs = async () => {
+    try {
+        const response = await axios.get(`https://localhost:3005/admin/logs`, {
+            headers: {
+                Authorization:getToken(), // Assuming JWT for auth
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching logs:', error);
+        throw error;
+    }
+};
 
 const userServices = {
     login,
@@ -122,7 +134,7 @@ const userServices = {
     uploadProductImage,
     uploadProfileImage,
     getAllPurchaseProducts,
-    unlockAccount,
+    unlockAccount,getLogs,
 
 }
 

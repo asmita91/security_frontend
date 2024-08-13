@@ -91,9 +91,9 @@ function Login() {
             setCounter(counter + 1);
           }
 
-          if (counter >= 10) {
+          if (counter >= 5) {
             setFormWarning(
-              "Your account will be locked after 10 failed attempts."
+              "Your account will be locked after 5 failed attempts."
             );
           }
 
