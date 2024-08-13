@@ -76,7 +76,7 @@ const AdminLogs = () => {
         >
             <AdminAppBar />
             <div className="m-12">
-                <h1 className="text-3xl font-bold">Admin Logs</h1>
+                <h1 className="text-3xl font-bold">Activity Logs</h1>
                 <TableContainer component={Paper} className="mt-6">
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>

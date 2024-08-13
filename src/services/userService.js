@@ -1,8 +1,5 @@
 import axios from "axios";
 
-
-// const baseUrl = 'https://localhost:3005/users';
-
 const baseUrl = 'https://localhost:3005/users';
 const getToken = () => `bearer ${window.localStorage.getItem('token')}`;
 
