@@ -41,6 +41,12 @@ export const AdminAppBar = () => {
           >
             View Products
           </NavLink>
+          <NavLink
+            to="/addProduct"
+            className="btn btn-ghost normal-case text-l mx-4"
+          >
+            Add Products
+          </NavLink>
         </div>
         <div className="flex-none">
           <a className="btn btn-ghost normal-case text-l">
