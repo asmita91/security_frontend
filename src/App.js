@@ -8,7 +8,6 @@ import Login from './components/Auth/Login';
 import { AuthProvider } from './utils/authContext';
 import { RequireAuth } from './utils/RequireAuth';
 import { PurchaseProvider } from './utils/purchaseContext';
-import AdminProfile from './components/Admin/AdminProfile';
 import { UserProvider } from './utils/userContext';
 import Signup from './components/Auth/Signup';
 import { Contact } from './components/Guest/Contact';
@@ -56,7 +55,6 @@ function App() {
               <Route path='/singleProduct/:productId' element={<SingleProduct />}></Route>
               <Route path='/home' element={<RequireAuth> <HomePage /> </RequireAuth>}></Route>
               <Route path='/purchaseCart' element={<RequireAuth> <PurchaseCart /> </RequireAuth>}></Route>
-              <Route path='/adminProfile' element={<RequireAuth> <AdminProfile /> </RequireAuth>}></Route>
               <Route path='/addProduct' element={<RequireAuth> <AddProduct /> </RequireAuth>}></Route>
               <Route path='/editProduct/:productId' element={<RequireAuth> <EditProduct /> </RequireAuth>}></Route>
               <Route path='/viewAllProducts' element={<RequireAuth> <ViewAllProducts /> </RequireAuth>}></Route>

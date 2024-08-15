@@ -1,7 +1,11 @@
-  // sanitizing the inputs to prevent from XSS 
-  const sanitizeInput = (input) => {
-    // Use DOMParser to convert input to text
-    const doc = new DOMParser().parseFromString(input, 'text/html');
-    return doc.body.textContent || "";
+const sanitizeInput = (input) => {
+  const doc = new DOMParser().parseFromString(input, 'text/html');
+  const sanitizedText = doc.body.textContent || "";
+  if (!sanitizedText) {
+      throw new Error("Input cannot be empty or contain only HTML tags. Please write a proper comment.");
+  }
+
+  return sanitizedText;
 };
+
 export default sanitizeInput;

@@ -119,6 +119,11 @@ const getLogs = async () => {
     }
 };
 
+const sendOtp = (email) => {
+    console.log("this is user service and email is", email)
+    return axios.post(`${baseUrl}/send_otp`, { email });
+};
+
 const userServices = {
     login,
     lockAccount,
@@ -132,7 +137,7 @@ const userServices = {
     uploadProfileImage,
     getAllPurchaseProducts,
     unlockAccount,getLogs,
-
+sendOtp
 }
 
 
