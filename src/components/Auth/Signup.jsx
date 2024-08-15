@@ -1,4 +1,3 @@
-
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import MailLockIcon from "@mui/icons-material/MailLock";
@@ -16,8 +15,11 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import sound from "../../assets/sound.wav";
 import userServices from "../../services/userService";
 import { allLetter, isEmail } from "../../validations/input-validation";
@@ -31,8 +33,7 @@ const Signup = () => {
     type: "",
     message: "",
   });
-  // for open and close snackbar
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
@@ -54,21 +55,31 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  // Modal state
+  // OTP related state
+  const [otp, setOtp] = useState(""); // To store the generated OTP
+  const [enteredOtp, setEnteredOtp] = useState(""); // To store the OTP entered by the user
+  const [timer, setTimer] = useState(900); // 15 minutes in seconds
   const [modalOpen, setModalOpen] = useState(false);
 
-  // for closing snackbar
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer(timer - 1);
+      }, 1000);
+      return () => clearInterval(interval);
     }
+  }, [timer]);
+
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+
+  const handleCloseSnackbar = () => {
     setOpen(false);
   };
+
   const play = () => new Audio(sound).play();
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-
+  const validateInputs = () => {
     let hasError = false;
 
     if (
@@ -109,42 +120,51 @@ const Signup = () => {
       setConfirmPasswordError("");
     }
 
-    if (hasError) {
+    return !hasError;
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    if (!validateInputs()) {
       play();
       return;
     }
 
-    const newUser = {
-      fullName: fullName,
-      email: email,
-      password: newPassword,
-    };
+    // Sending OTP only after validation
+    setSnack({
+      type: "info",
+      message: "Generating OTP, please wait...",
+    });
+    setOpen(true);
 
+    const data = email;
     userServices
-      .register(newUser)
+      .sendOtp(data)
       .then((res) => {
-        console.log(res.data);
-        play();
-        setSnack({
-          type: "success",
-          message: "Signup successfully.",
-        });
+        if (res?.success === false) {
+          toast.error(res.message);
+          setSnack({
+            type: "error",
+            message: res.message,
+          });
+        } else {
+          setOtp(res.data.otp);
+          console.log("OTP received from server:", res.data.otp);
+          setModalOpen(true); // Open the modal for OTP input
+          setTimer(900); // Reset timer to 15 minutes
+          setSnack({
+            type: "success",
+            message: "OTP sent successfully!",
+          });
+        }
         setOpen(true);
-
-        // reset all fields
-        setFullName("");
-        setEmail("");
-        setNewPassword("");
-        setConfirmPassword("");
-
-        navigate("/login");
       })
-      .catch((err) => {
-        console.log(err);
-        play();
+      .catch((error) => {
+        console.error("Server Error:", error);
         setSnack({
           type: "error",
-          message: err.response.data.error,
+          message: "Failed to send OTP. Please try again.",
         });
         setOpen(true);
       });
@@ -172,6 +192,112 @@ const Signup = () => {
     setNewPassword(password);
     setIsPasswordValid(passwordValidations);
     setPasswordError(""); // Clear password error when typing
+  };
+
+  const resendOtp = async () => {
+    const data = { email: email };
+    setSnack({
+      type: "info",
+      message: "Resending OTP...",
+    });
+    setOpen(true);
+
+    userServices
+      .sendOtp(data)
+      .then((res) => {
+        if (res?.success === false) {
+          setSnack({
+            type: "error",
+            message: res.message,
+          });
+        } else {
+          setTimer(900); // Reset timer to 15 minutes
+          setOtp(res?.data.otp);
+          setSnack({
+            type: "success",
+            message: "OTP has been resent to your email.",
+          });
+        }
+        setOpen(true);
+      })
+      .catch(() => {
+        setSnack({
+          type: "error",
+          message: "Failed to resend OTP. Please try again.",
+        });
+        setOpen(true);
+      });
+  };
+
+  const verifyOtp = () => {
+    console.log("Verifying OTP...");
+    console.log("Entered OTP:", enteredOtp);
+    console.log("Generated OTP:", otp);
+
+    if (!otp) {
+      setSnack({
+        type: "error",
+        message: "OTP not received or expired. Please try again.",
+      });
+      setOpen(true);
+      return;
+    }
+
+    if (enteredOtp === otp.toString()) {
+      setSnack({
+        type: "success",
+        message: "OTP verified successfully. Proceeding with registration.",
+      });
+      setOpen(true);
+      // Proceed with the registration process
+      registerUser();
+    } else {
+      setSnack({
+        type: "error",
+        message: "Invalid OTP. Please try again.",
+      });
+      setOpen(true);
+    }
+  };
+
+  const registerUser = () => {
+    const newUser = {
+      fullName: fullName,
+      email: email,
+      password: newPassword,
+      otp: otp,
+    };
+
+    userServices
+      .register(newUser)
+      .then((res) => {
+        play();
+        setSnack({
+          type: "success",
+          message: "Signup successfully.",
+        });
+        setOpen(true);
+
+        // reset all fields
+        setTimeout(() => {
+          // reset all fields
+          setFullName("");
+          setEmail("");
+          setNewPassword("");
+          setConfirmPassword("");
+
+          navigate("/login");
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        play();
+        setSnack({
+          type: "error",
+          message: err.response.data.error,
+        });
+        setOpen(true);
+      });
   };
 
   const modalStyle = {
@@ -313,7 +439,6 @@ const Signup = () => {
                           </h4>
                         )}
                       </div>
-
                       <div className="">
                         <div className="input-label mb-1" align="left">
                           Confirm Password:
@@ -357,7 +482,6 @@ const Signup = () => {
                           </div>
                         )}
                       </div>
-
                       <div className="mt-2 mb-2">
                         <Button
                           onClick={() => setModalOpen(true)}
@@ -366,7 +490,6 @@ const Signup = () => {
                           Password Guidelines
                         </Button>
                       </div>
-
                       <input
                         type="submit"
                         value="Signup"
@@ -397,7 +520,7 @@ const Signup = () => {
                     </label>
                     <MySnackbar
                       open={open}
-                      handleClose={handleClose}
+                      handleClose={handleCloseSnackbar}
                       type={snack.type}
                       message={snack.message}
                     />
@@ -423,7 +546,7 @@ const Signup = () => {
               ) : (
                 <ClearIcon style={{ color: "red" }} />
               )}
-              Password must be at least 8 characters.
+              Password must be a minimum of 8 characters long.
             </label>
             <br />
 
@@ -433,7 +556,7 @@ const Signup = () => {
               ) : (
                 <ClearIcon style={{ color: "red" }} />
               )}
-              Password must contain at least one uppercase letter.
+              Password must include at least one uppercase letter.
             </label>
             <br />
             <label htmlFor="containsLowerCase">
@@ -442,7 +565,7 @@ const Signup = () => {
               ) : (
                 <ClearIcon style={{ color: "red" }} />
               )}
-              Password must contain at least one lowercase letter.
+              There must be at least one lowercase letter.
             </label>
             <br />
             <label htmlFor="containsNumber">
@@ -451,7 +574,7 @@ const Signup = () => {
               ) : (
                 <ClearIcon style={{ color: "red" }} />
               )}
-              Password must contain at least one number.
+              It must have at least one number.
             </label>
             <br />
             <label htmlFor="containsSpecialCharacter">
@@ -460,9 +583,27 @@ const Signup = () => {
               ) : (
                 <ClearIcon style={{ color: "red" }} />
               )}
-              Password must contain at least one special character.
+              The password must include at least one special character.{" "}
             </label>
           </Typography>
+          {/* OTP Input Field */}
+          <OutlinedInput
+            placeholder="Enter OTP"
+            value={enteredOtp}
+            onChange={(e) => setEnteredOtp(e.target.value)}
+            type="text"
+            variant="outlined"
+            fullWidth
+            style={{ marginTop: "20px" }}
+          />
+          <Button
+            onClick={verifyOtp}
+            variant="contained"
+            color="primary"
+            style={{ marginTop: "20px" }}
+          >
+            Verify OTP
+          </Button>
         </Box>
       </Modal>
       <style jsx>{`
