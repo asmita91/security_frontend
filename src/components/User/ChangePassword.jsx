@@ -1,209 +1,4 @@
-// import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
-// import React, { useState } from 'react'
-// import PasswordIcon from '@mui/icons-material/Password';
-// import sound from '../../assets/sound.wav';
-// import { MySnackbar } from '../MySnackbar';
-// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-// import VisibilityIcon from '@mui/icons-material/Visibility';
-// import userServices from '../../services/userService';
-// import { useNavigate } from 'react-router-dom';
-// import { Loading } from '../Loading';
-// import sanitizeInput from '../../utils/sanitizationInput';
 
-// export const ChangePassword = () => {
-
-//     const [snack, setSnack] = useState({
-//         type: '',
-//         message: '',
-//     });
-//     // for open and close snackbar
-//     const [open, setOpen] = React.useState(false);
-//     const [isOldPasswordVisible, setIsOldPasswordVisible] = useState(false);
-//     const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
-//     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-
-//     const [oldPassword, setOldPassword] = useState('');
-//     const [newPassword, setNewPassword] = useState('');
-//     const [confirmPassword, setConfirmPassword] = useState('');
-//     const [showLoading, setShowLoading] = useState(false);
-
-//     const navigate = useNavigate();
-
-//     // for closing snackbar
-//     const handleClose = (event, reason) => {
-//         if (reason === 'clickaway') {
-//             return;
-//         }
-//         setOpen(false);
-//     };
-//     const play = () => new Audio(sound).play();
-
-//     const handleChangePassword = (e) => {
-//         e.preventDefault();
-
-//         if (newPassword !== confirmPassword) {
-//             play();
-//             setSnack({
-//                 type: 'error',
-//                 message: 'Password and confirm password must be same',
-//             });
-//             setOpen(true);
-//             return;
-//         }
-
-//         // sanitizing the inputs
-//         const sanitizedOldPassword = sanitizeInput(oldPassword);
-//         const sanitizedNewPassword = sanitizeInput(newPassword);
-
-//         const passwords = {
-//             "oldPassword": sanitizedOldPassword,
-//             "newPassword": sanitizedNewPassword
-//         }
-
-//         setShowLoading(true);
-
-//         userServices.changePassword(passwords)
-//             .then(res => {
-
-//                 console.log(res.data)
-//                 setShowLoading(false);
-
-//                 // change password successfully
-//                 play();
-//                 setSnack({
-//                     type: 'success',
-//                     message: 'Password changed successfully',
-//                 });
-//                 setOpen(true);
-
-//                 setOldPassword('');
-//                 setNewPassword('');
-
-//                 navigate('/login');
-
-//             }
-
-//             )
-//             .catch(err => {
-//                 setShowLoading(false);
-
-//                 play();
-//                 setSnack({
-//                     type: 'error',
-//                     message: `Error: ${err.response.data.error}`,
-//                 });
-//                 setOpen(true);
-//             })
-
-//     };
-
-//     return (
-//         <div>
-//             {
-//                 showLoading ? <> <Loading /> </>
-//                     : <>
-
-//                         <div className="gb-darkzero h-screen w-screen">
-//                             <h1 className='info p-2'>Note: Password expires in every 90 days.</h1>
-//                             <div className="w-[80] mx-auto" align="center" >
-//                                 <div className='mx-auto pt-10'>
-
-//                                     <div style={{
-//                                         border: '1px solid green',
-//                                         boxShadow: "0 0 50px rgb(26, 176, 23) ",
-
-//                                     }}
-//                                         className="rounded-lg mt-3 text-white bg-indigo-500 p-5 m-auto lg:w-[500px] md:w-[400px] sm:w-[300px]"
-//                                         align="center"
-//                                     >
-//                                         <div className="text-3xl font-bold">
-//                                             Change Password
-//                                         </div>
-
-//                                         <div className="mt-5">
-
-//                                             <form action="" onSubmit={handleChangePassword}>
-//                                                 <div className="old-password-section">
-//                                                     <div className="mt-3 mb-2" align="left">
-//                                                         Old Password:
-//                                                     </div>
-//                                                     <OutlinedInput
-//                                                         placeholder='Enter old password here...'
-//                                                         className='input input-bordered input-accent w-full'
-//                                                         style={{ color: 'white' }}
-//                                                         onChange={(e) => setOldPassword(e.target.value)}
-//                                                         startAdornment={<InputAdornment position="start"><PasswordIcon style={{ color: 'white' }} /></InputAdornment>}
-//                                                         type={isOldPasswordVisible ? 'text' : 'password'}
-//                                                         endAdornment={
-//                                                             <IconButton onClick={() => setIsOldPasswordVisible(!isOldPasswordVisible)}>
-//                                                                 {isOldPasswordVisible ? <VisibilityOffIcon style={{ color: 'white' }} /> :
-//                                                                     <VisibilityIcon style={{ color: 'white' }} />}
-//                                                             </IconButton>
-//                                                         }
-//                                                         variant="outlined"
-//                                                         required
-//                                                     />
-//                                                 </div>
-
-//                                                 <div className="">
-//                                                     <div className="mt-3 mb-2" align="left">
-//                                                         New Password:
-//                                                     </div>
-//                                                     <OutlinedInput
-//                                                         placeholder='Enter new password here...'
-//                                                         className='input input-bordered input-accent w-full'
-//                                                         style={{ color: 'white' }}
-//                                                         onChange={(e) => setNewPassword(e.target.value)}
-//                                                         startAdornment={<InputAdornment position="start"><PasswordIcon style={{ color: 'white' }} /></InputAdornment>}
-//                                                         type={isNewPasswordVisible ? 'text' : 'password'}
-//                                                         endAdornment={
-//                                                             <IconButton onClick={() => setIsNewPasswordVisible(!isNewPasswordVisible)}>
-//                                                                 {isNewPasswordVisible ? <VisibilityOffIcon style={{ color: 'white' }} /> :
-//                                                                     <VisibilityIcon style={{ color: 'white' }} />}
-//                                                             </IconButton>
-//                                                         }
-//                                                         variant="outlined"
-//                                                         required
-//                                                     />
-//                                                 </div>
-
-//                                                 <div className="">
-//                                                     <div className="mt-3 mb-2" align="left">
-//                                                         Confirm Password:
-//                                                     </div>
-//                                                     <OutlinedInput label="Email"
-//                                                         placeholder='Enter again password here...'
-//                                                         className='input input-bordered input-accent w-full'
-//                                                         style={{ color: 'white' }}
-//                                                         onChange={(e) => setConfirmPassword(e.target.value)}
-//                                                         startAdornment={<InputAdornment position="start"><PasswordIcon style={{ color: 'white' }} /></InputAdornment>}
-//                                                         type={isConfirmPasswordVisible ? 'text' : 'password'}
-//                                                         endAdornment={
-//                                                             <IconButton onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}>
-//                                                                 {isConfirmPasswordVisible ? <VisibilityOffIcon style={{ color: 'white' }} /> :
-//                                                                     <VisibilityIcon style={{ color: 'white' }} />}
-//                                                             </IconButton>
-//                                                         }
-//                                                         variant="outlined"
-//                                                         required
-//                                                     />
-
-//                                                     <input type="submit" value='Change password' className='m-12 btn-primary btn' />
-//                                                 </div>
-//                                             </form>
-//                                             <MySnackbar open={open} handleClose={handleClose} type={snack.type} message={snack.message} />
-//                                         </div>
-//                                     </div>
-
-//                                 </div>
-//                             </div>
-//                         </div>
-
-//                     </>
-//             }
-//         </div>
-//     )
-// }
 
 import PasswordIcon from "@mui/icons-material/Password";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -233,6 +28,8 @@ export const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showLoading, setShowLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const navigate = useNavigate();
 
   const handleClose = (event, reason) => {
@@ -244,14 +41,60 @@ export const ChangePassword = () => {
 
   const play = () => new Audio(sound).play();
 
+  const validatePassword = (password) => {
+    const isLengthValid = password.length >= 8;
+    const isUppercaseValid = /[A-Z]/.test(password);
+    const isLowercaseValid = /[a-z]/.test(password);
+    const isNumberValid = /\d/.test(password);
+    const isSpecialCharValid = /[!@#$%^&*()_+[\]{};':"<>?~]/.test(password);
+
+    return (
+      isLengthValid &&
+      isUppercaseValid &&
+      isLowercaseValid &&
+      isNumberValid &&
+      isSpecialCharValid
+    );
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setNewPassword(value);
+
+    if (!validatePassword(value)) {
+      setPasswordError(
+        "Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character."
+      );
+    } else {
+      setPasswordError("");
+    }
+
+    if (value !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    if (value !== newPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
   const handleChangePassword = (e) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
+    if (passwordError || confirmPasswordError) {
       play();
       setSnack({
         type: "error",
-        message: "Password and confirm password must be same",
+        message: "Please fix the errors before submitting.",
       });
       setOpen(true);
       return;
@@ -321,7 +164,12 @@ export const ChangePassword = () => {
                 className="rounded-lg mt-3 text-black p-5"
                 align="center"
               >
-                <div className="text-3xl font-bold">Change Password</div>
+                <div
+                  className="text-3xl font-bold"
+                  style={{ fontSize: "1.5rem" }}
+                >
+                  Change Password
+                </div>
                 <div className="mt-5">
                   <form onSubmit={handleChangePassword}>
                     <div className="mt-3 mb-2" align="left">
@@ -354,6 +202,15 @@ export const ChangePassword = () => {
                       }
                       variant="outlined"
                       required
+                      style={{
+                        fontSize: "1rem",
+                        color: "#1f2937",
+                        backgroundColor: "#e5e7eb",
+                        borderRadius: "12px",
+                        padding: "12px",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        border: "1px solid #cbd5e1",
+                      }}
                     />
                     <div className="mt-3 mb-2" align="left">
                       New Password:
@@ -361,7 +218,8 @@ export const ChangePassword = () => {
                     <OutlinedInput
                       placeholder="Enter new password here..."
                       className="input input-bordered w-full"
-                      onChange={(e) => setNewPassword(e.target.value)}
+                      onChange={handlePasswordChange}
+                      value={newPassword}
                       startAdornment={
                         <InputAdornment position="start">
                           <PasswordIcon />
@@ -385,14 +243,29 @@ export const ChangePassword = () => {
                       }
                       variant="outlined"
                       required
+                      style={{
+                        fontSize: "1rem",
+                        color: "#1f2937",
+                        backgroundColor: "#e5e7eb",
+                        borderRadius: "12px",
+                        padding: "12px",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        border: "1px solid #cbd5e1",
+                      }}
                     />
+                    {passwordError && (
+                      <div className="text-sm mt-1" style={{ color: "red" }}>
+                        {passwordError}
+                      </div>
+                    )}
                     <div className="mt-3 mb-2" align="left">
                       Confirm Password:
                     </div>
                     <OutlinedInput
                       placeholder="Confirm new password here..."
-                      className="input input-bordered w-full"
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="input input-bordered w-full mb-2"
+                      onChange={handleConfirmPasswordChange}
+                      value={confirmPassword}
                       startAdornment={
                         <InputAdornment position="start">
                           <PasswordIcon />
@@ -418,13 +291,32 @@ export const ChangePassword = () => {
                       }
                       variant="outlined"
                       required
+                      style={{
+                        fontSize: "1rem",
+                        color: "#1f2937",
+                        backgroundColor: "#e5e7eb",
+                        borderRadius: "12px",
+                        padding: "12px",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        border: "1px solid #cbd5e1",
+                      }}
                     />
+                    {confirmPasswordError && (
+                      <div className="text-sm mt-1" style={{ color: "red" }}>
+                        {confirmPasswordError}
+                      </div>
+                    )}
                     <Button
                       type="submit"
                       variant="contained"
                       color="primary"
-                      className="w-full font-bold mt-8 mb-8"
-                      style={{ backgroundColor: "#003366", color: "white" }}
+                      className="font-bold mb-8"
+                      style={{
+                        backgroundColor: "#000000",
+                        color: "white",
+                        textTransform: "none",
+                        marginTop: "20px",
+                      }}
                     >
                       Change Password
                     </Button>

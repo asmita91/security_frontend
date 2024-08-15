@@ -1,25 +1,32 @@
+
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 export const ErrorPage = () => {
   return (
-    <main>
+    <main
+      style={{
+        backgroundColor: "#b2d5f5",
+        position: "relative",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-start h-screen md:px-8">
         <div className="max-w-lg mx-auto space-y-3 text-center">
-          <h3 className="text-gray-800 text-4xl font-semibold sm:text-5xl">
-            404, Page not found
+          <h3 className="text-white text-4xl font-semibold sm:text-5xl">
+            Oops! This Page Got Lost
           </h3>
-          <p className="text-gray-600">
-            Sorry, the page you are looking for could not be found or has been
-            removed.
+          <p className="text-black">
+            It seems like the page you are looking for has wandered off. But don’t worry, let’s get you back on track!
           </p>
           <NavLink
-            to={"/"}
+            to={"/home"}
             className="text-indigo-600 duration-150 hover:text-indigo-400 font-medium inline-flex items-center gap-x-1"
           >
-            Go to Home
+            Return Home
             <svg
-              xmlns="https://www.w3.org/2000/svg"
+              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
               className="w-5 h-5"
@@ -32,6 +39,56 @@ export const ErrorPage = () => {
             </svg>
           </NavLink>
         </div>
+      </div>
+
+      {/* Paw prints using Unicode characters */}
+      <div
+        style={{
+          position: "absolute",
+          top: "10%",
+          left: "10%",
+          fontSize: "3rem",
+          color: "rgba(255, 255, 255, 0.5)",
+          transform: "rotate(-20deg)",
+        }}
+      >
+        🐾
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: "20%",
+          right: "10%",
+          fontSize: "2.5rem",
+          color: "rgba(255, 255, 255, 0.5)",
+          transform: "rotate(15deg)",
+        }}
+      >
+        🐾
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "10%",
+          left: "15%",
+          fontSize: "2.8rem",
+          color: "rgba(255, 255, 255, 0.5)",
+          transform: "rotate(-10deg)",
+        }}
+      >
+        🐾
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "15%",
+          right: "20%",
+          fontSize: "3.2rem",
+          color: "rgba(255, 255, 255, 0.5)",
+          transform: "rotate(5deg)",
+        }}
+      >
+        🐾
       </div>
     </main>
   );
