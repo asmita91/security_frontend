@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import DOMPurify from 'dompurify';
+
 import { ResponsiveAppBarLandingPage } from '../AppBar/ResponsiveAppBarLandingPage';
 
 export const Contact = () => {
