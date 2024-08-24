@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'https://localhost:3005/users';
+const baseUrl = 'https://security-backend.vercel.app/users';
 const getToken = () => `bearer ${window.localStorage.getItem('token')}`;
 
 const register = (userData) => {
@@ -68,8 +68,8 @@ const uploadProfileImage = (selectedImageFile) => {
         }
     };
 
-    // return axios.post('https://localhost:3005/uploads', formData, config);
-    return axios.post('https://localhost:3005/uploads', formData, config);
+    // return axios.post('https://security-backend.vercel.app/uploads', formData, config);
+    return axios.post('https://security-backend.vercel.app/uploads', formData, config);
 
 };
 // upload file or image for profile
@@ -85,13 +85,13 @@ const uploadProductImage = (productId, selectedImageFile) => {
     };
 
     // return axios.post(`https://localhost:3005/uploads/${productId}`, formData, config);
-    return axios.post(`https://localhost:3005/uploads/${productId}`, formData, config);
+    return axios.post(`https://security-backend.vercel.app/uploads/${productId}`, formData, config);
 
 };
 
 const getAllPurchaseProducts = () => {
     // return axios.get('https://localhost:3005/purchase', {
-        return axios.get('https://localhost:3005/purchase', {
+        return axios.get('https://security-backend.vercel.app/purchase', {
 
         headers: {
             Authorization: getToken()
@@ -101,13 +101,13 @@ const getAllPurchaseProducts = () => {
 };
 
 const unlockAccount = (userId) => {
-    // return axios.post(`https://localhost:3005/admin/unlockAccount/${userId}`, {});
-    return axios.post(`https://localhost:3005/admin/unlockAccount/${userId}`, {});
+    // return axios.post(`https://security-backend.vercel.app/admin/unlockAccount/${userId}`, {});
+    return axios.post(`https://security-backend.vercel.app/admin/unlockAccount/${userId}`, {});
 }
 
 const getLogs = async () => {
     try {
-        const response = await axios.get(`https://localhost:3005/admin/logs`, {
+        const response = await axios.get(`https://security-backend.vercel.app/admin/logs`, {
             headers: {
                 Authorization:getToken(), // Assuming JWT for auth
             },
