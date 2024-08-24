@@ -22,7 +22,7 @@ import { AddProduct } from './components/Admin/AddProduct';
 import { ViewAllProducts } from './components/Admin/ViewAllProducts';
 import { EditProduct } from './components/Admin/EditProduct';
 import PasswordResetRequest from './components/User/Forgotpassword';
-import { ToastContainer } from 'react-toastify';
+
 import AdminLogs from './components/Admin/AdminLogs';
 
 function App() {
