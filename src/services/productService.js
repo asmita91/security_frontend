@@ -2,8 +2,8 @@
 
 import axios from "axios";
 // const baseUrl = 'https://localhost:3005/products';
-const baseUrl = 'https://localhost:3005/products';
-const cartUrl = 'https://localhost:3005/cart';  // Assuming your cart routes are prefixed with /cart
+const baseUrl = 'https://security-backend.vercel.app/products';
+const cartUrl = 'https://security-backend.vercel.app/cart';  // Assuming your cart routes are prefixed with /cart
 
 
 const getToken = () => `bearer ${window.localStorage.getItem('token')}`;
@@ -32,7 +32,7 @@ const addReview = (productId, review) => {
 
 const deleteReview = (productId, reviewId) => {
     // return axios.delete(`https://localhost:3005/${productId}/${reviewId}`, {
-        return axios.delete(`https://localhost:3005/${productId}/${reviewId}`, {
+        return axios.delete(`https://security-backend.vercel.app/${productId}/${reviewId}`, {
 
         headers: {
             Authorization: getToken()
@@ -42,7 +42,7 @@ const deleteReview = (productId, reviewId) => {
 
 const updateReview = (productId, reviewId, updatedReview) => {
     // return axios.put(`https://localhost:3005/${productId}/${reviewId}`, updatedReview, {
-        return axios.put(`https://localhost:3005/${productId}/${reviewId}`, updatedReview, {
+        return axios.put(`https://security-backend.vercel.app/${productId}/${reviewId}`, updatedReview, {
 
         headers: { Authorization: getToken() }
     })
@@ -50,7 +50,7 @@ const updateReview = (productId, reviewId, updatedReview) => {
 
 const purchaseProduct = (products) => {
     // return axios.post('https://localhost:3005/purchase', products, {
-        return axios.post('https://localhost:3005/purchase', products, {
+        return axios.post('https://security-backend.vercel.app/purchase', products, {
 
         headers: {
             Authorization: getToken()
@@ -62,7 +62,7 @@ const purchaseProduct = (products) => {
 // add product by admin only
 const addProduct = (product) => {
     // return axios.post(`https://localhost:3005/admin/product`, product, {
-        return axios.post(`https://localhost:3005/admin/product`, product, {
+        return axios.post(`https://security-backend.vercel.app/admin/product`, product, {
 
         headers: {
             Authorization: getToken()
@@ -72,7 +72,7 @@ const addProduct = (product) => {
 
 const editProduct = (productId, updatedProduct) => {
     // return axios.put(`https://localhost:3005/admin/product/${productId}`, updatedProduct, {
-        return axios.put(`https://localhost:3005/admin/product/${productId}`, updatedProduct, {
+        return axios.put(`https://security-backend.vercel.app/admin/product/${productId}`, updatedProduct, {
 
         headers: { Authorization: getToken() }
     })
@@ -80,7 +80,7 @@ const editProduct = (productId, updatedProduct) => {
 
 const deleteProduct = (productId) => {
     // return axios.delete(`https://localhost:3005/admin/product/${productId}`, {
-        return axios.delete(`https://localhost:3005/admin/product/${productId}`, {
+        return axios.delete(`https://security-backend.vercel.app/admin/product/${productId}`, {
 
         headers: {
             Authorization: getToken()
