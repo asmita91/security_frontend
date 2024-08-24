@@ -362,9 +362,9 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import React, { useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+
 import { useNavigate } from "react-router-dom";
-import recaptchKeys from "../../services/recaptcha";
+
 import userServices from "../../services/userService";
 import { useAuth } from "../../utils/authContext";
 import { useUser } from "../../utils/userContext";
@@ -633,10 +633,7 @@ function Login() {
                     </div>
                   )}
 
-                  <ReCAPTCHA
-                    sitekey={recaptchKeys.siteKey}
-                    onChange={onChange}
-                  />
+                
 
                   <div className="mt-3 mb-1">
                     <button
