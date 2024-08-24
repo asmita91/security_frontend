@@ -13,10 +13,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { jwtDecode } from "jwt-decode";
-import KhaltiCheckout from "khalti-checkout-web";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import keys from "../../services/khaltiSecrets";
 import productServices from "../../services/productService";
 import { usePurchase } from "../../utils/purchaseContext";
 import { ResponsiveAppBarHomepage } from "../AppBar/ResponsiveAppBarHomepage";
@@ -75,41 +73,7 @@ export const PurchaseCart = () => {
     setTotalPrice(total);
   };
 
-  const handleKhaltiPayment = (e) => {
-    e.preventDefault();
-
-    let config = {
-      publicKey: keys.publicTestKey,
-      productIdentity: "1234567890",
-      productName: "pawzzz",
-      productUrl: "https://localhost:3005/",
-
-      eventHandler: {
-        onSuccess(payload) {
-          console.log(payload);
-          handlePayAndPurchase();
-        },
-        onError(error) {
-          console.log(error);
-          window.alert("Payment failed!");
-        },
-        onClose() {
-          console.log("widget is closing");
-        },
-      },
-      paymentPreference: [
-        "KHALTI",
-        "EBANKING",
-        "MOBILE_BANKING",
-        "CONNECT_IPS",
-        "SCT",
-      ],
-    };
-
-    let checkout = new KhaltiCheckout(config);
-    checkout.show({ amount: 200 * 100 }); // Rs 200 is passed here for Khalti payment
-  };
-
+ 
   const handleDeleteClick = (productId) => {
     setSelectedProductId(productId);
     setDialogOpen(true);
@@ -263,7 +227,7 @@ export const PurchaseCart = () => {
           </div>
           <Button
             className="w-wide"
-            onClick={handleKhaltiPayment}
+            onClick={}
             variant="contained"
             startIcon={<ShoppingCartCheckoutIcon />}
             sx={{
