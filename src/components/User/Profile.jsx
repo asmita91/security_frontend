@@ -6,10 +6,10 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useNavigate } from "react-router-dom";
 import userServices from "../../services/userService";
 import { MySnackbar } from "../reusbles/snackbar";
-import { PasswordOutlined, UploadRounded } from "@mui/icons-material";
+
 import { ResponsiveAppBarHomepage } from "../AppBar/ResponsiveAppBarHomepage";
 import sound from "../../assets/sound.wav";
-import { FaUser } from "react-icons/fa6";
+
 
 export const Profile = () => {
   const navigate = useNavigate();
