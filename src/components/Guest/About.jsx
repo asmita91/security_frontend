@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { FaPaw } from 'react-icons/fa';
+
 import { ResponsiveAppBarHomepage } from '../AppBar/ResponsiveAppBarHomepage';
 import { ResponsiveAppBarLandingPage } from '../AppBar/ResponsiveAppBarLandingPage';
 
